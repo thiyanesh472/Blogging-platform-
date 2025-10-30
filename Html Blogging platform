@@ -1,0 +1,276 @@
+2.1 src/pages/Profile.jsx   
+
+ 
+
+// src/pages/Profile.jsx (Tailwind modern UI) import React, { useEffect, useState, useContext } from ‘react’; import axios from ‘axios’;  import { AuthContext } from ‘../context/AuthContext’;  
+
+ 
+
+Import { useParams } from ‘react-router-dom’;   
+
+ 
+
+   
+
+ 
+
+Export default function Profile() {    const { user: me, token } =  
+
+ 
+
+useContext(AuthContext);   const { id } = useParams();   const [profile, setProfile] =  
+
+ 
+
+useState(null);   const [posts, setPosts] = useState([]);   const [loading, setLoading] = useState(true);   const isMe = !id || (me && me.id === id);   
+
+ 
+
+   
+
+ 
+
+  useEffect(() => {      
+
+ 
+
+const load = async () => {   
+
+ 
+
+      try {    axios.get(`/api/blogs/search?q=${encodeURIComponent(q)}&tag=${encodeU 
+
+ 
+
+RICo mponent(tag)}&limit=12`);       setResults(res.data.blogs);        setMeta({ total: res.data.total, page: res.data.page });   
+
+ 
+
+    } catch (err) { console.error(err); }   
+
+ 
+
+  };   
+
+ 
+
+   
+
+ 
+
+  Return (   
+
+ 
+
+    <div className=”max-w-4xl mx-auto p-6”>   
+
+ 
+
+      <form onSubmit={search} className=”flex gap-2”>   
+
+ 
+
+        <input value={q} onChange={e => setQ(e.target.value)} placeholder=”Search title or content…” className=”flex-1 p-2 border rounded” />   
+
+ 
+
+        <input value={tag} onChange={e => setTag(e.target.value)} placeholder=”Tag   
+
+ 
+
+(optional)” className=”w-48 p-2 border rounded” />   
+
+ 
+
+        <button className=”bg-blue-600 text-white px-4 rounded”>Search</button>   
+
+ 
+
+      </form>   
+
+ 
+
+   
+
+ 
+
+      <div className=”mt-6 grid grid-cols-1 md:grid-cols-2 gap-4”>   
+
+ 
+
+        {results.map(b => (   
+
+ 
+
+          <div key={b._id} className=”border p-4 rounded hover:shadow”>   
+
+ 
+
+            <Link to={`/post/${b._id}`} className=”text-lg fontsemibold”>{b.title}</Link>   
+
+ 
+
+            <p className=”text-gray-600 text-sm mt-2 line-clamp- 
+
+ 
+
+3”>{b.content}</p>   
+
+ 
+
+            <div className=”mt-3 text-xs text-gray-500 flex justify-between”>   
+
+ 
+
+              <span>{b.authorId?.name}</span>   
+
+ 
+
+              <span>{b.tags?.join(‘, ‘)}</span>   
+
+ 
+
+            </div>   
+
+ 
+
+          </div>   
+
+ 
+
+        ))}   
+
+ 
+
+      </div>   
+
+ 
+
+   
+
+ 
+
+ 
+
+ 
+
+      {meta && <div className=”mt-4 text-sm text-gray-500”>Total:   
+
+ 
+
+{meta.total}</div>}   
+
+ 
+
+    </div>   
+
+ 
+
+  );   
+
+ 
+
+}   
+
+ 
+
+   
+
+ 
+
+2.3 src/components/DemoWalkthrough.jsx   
+
+ 
+
+// src/components/DemoWalkthrough.jsx import React from ‘react’;   Export default function DemoWalkthrough() {    
+
+ 
+
+Const steps = [   
+
+ 
+
+    { title: ‘1. Register / Login’, desc: ‘Create new account or login with existing credentials.’ },   
+
+ 
+
+    { title: ‘2. Create Post’, desc: ‘Publish a blog with title, content and tags.’ },   
+
+ 
+
+    { title: ‘3. Feed & Search’, desc: ‘Browse feed, search and filter by tags.’ },     { title: ‘4. 
+
+Comments & Likes’, desc: ‘Interact with posts via likes and nested comments.’ },   
+
+ 
+
+    { title: ‘5. Profile’, desc: ‘View or update profile and view your posts.’ },   
+
+ 
+
+    { title: ‘6. Deployment’, desc: ‘Visit live URL and verify API endpoints.’ }   
+
+ 
+
+  ];    
+
+ 
+
+Return (   
+
+ 
+
+    <div className=”max-w-3xl mx-auto p-6”>   
+
+ 
+
+      <h2 className=”text-2xl font-bold mb-4”>Demo Walkthrough</h2>   
+
+ 
+
+      <ol className=”space-y-4”>   
+
+ 
+
+        {steps.map((s, i) => (   
+
+ 
+
+          <li key={i} className=”p-4 border-l-4 border-blue-500 bg-white rounded shadowsm”>   
+
+ 
+
+            <h3 className=”font-semibold”>{s.title}</h3>   
+
+ 
+
+            <p className=”text-gray-600 mt-1”>{s.desc}</p>   
+
+ 
+
+          </li>   
+
+ 
+
+        ))}   
+
+      </ol>   
+
+    </div>   
+
+  );   
+
+}   
+
+ 
+
+   
+
+ 
+
+ 
+
+ 
+
+ 
+
